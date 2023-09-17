@@ -1,0 +1,48 @@
+from google.colab import drive
+drive.mount('/content/drive')
+
+
+!pip install pyspark
+
+
+import pyspark
+from pyspark.sql import SparkSession
+
+
+practice = SparkSession.builder.appName('Rayuga').getOrCreate()
+practice
+
+
+case_path = r'/content/drive/MyDrive/DIU/Courses/Big-Data-and-IOT/lab-4/Case.csv'
+region_path = '/content/drive/MyDrive/DIU/Courses/Big-Data-and-IOT/lab-4/Region.csv'
+
+case = practice.read.load(case_path, format='csv', sep=",", InferSchema = True, header = True)
+case.show()
+
+case = case.withColumnRenamed('confirmed', 'confirmed_num') #rename a column
+case.show()
+
+Convert the csv file to dataframe
+
+case = case.toDF('case_id', 'province', 'city', 'group', 'infection_case', 'confirmed_num', 'latitude', 'longitude')
+case.show()
+
+Create seperate table using some of the columns from existing table
+
+selected_columns = case.select('confirmed_num', 'case_id')
+selected_columns.show()
+
+Sort the table based on defenite column
+
+sorted_case = case.sort('confirmed_num')
+sorted_case.show()
+
+from pyspark.sql import functions as Function
+
+sort_in_desc = case.sort(Function.desc('confirmed_num')).show()
+
+filter_case = case.filter((case.confirmed_num>100) & (case.confirmed_num<200))
+filter_case.show()
+
+filter_selected = filter_case.select('city', 'infection_case').show()
+
