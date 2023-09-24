@@ -1,0 +1,88 @@
+some basic codes to create df
+
+import pandas as pd
+
+from google.colab import drive
+drive.mount('/content/drive')
+
+from google.colab import files
+uploaded = files.upload()
+
+df = pd.read_csv('yourfile.csv')
+
+print(df)
+
+
+some basic operations you can try
+ 
+df.head
+print(df.head(2))
+
+df.tail
+print(df.tail(2))
+
+df.shape
+print(df.shape)
+
+df.columns
+print(df.columns)
+
+df.info()
+print(df.info())
+
+
+select 
+
+print("Select a Single Column:")
+print(df['Name'])
+
+print("Select Multiple Columns:")
+print(df[['Name', 'Age']])
+
+print("Select Data by Label:")
+print(df.loc[0, 'Column_Name'])
+
+print("Select Data by Integer Location:")
+print(df.iloc[0, 1])
+
+
+
+df[df['Column'] > 0]
+
+print("Filtering Data:")
+print(df[df['Column'] > 0])
+
+
+df.sort_values(by='Column_Name')
+
+
+df.groupby('colomn1').agg({'colomn2': 'count','min','max','sum'})
+print(grouped)
+
+
+
+you can clean data from your file by using them
+
+print("Dropping Rows with Missing Values:")
+print(df.dropna())
+
+print("Filling Missing Values:")
+print(df.fillna(0))
+
+print(df.drop_duplicates())
+
+df.describe()
+
+
+
+you can merge and join by using this codes
+
+pd.concat([df, df1], axis=0)
+pd.concat([df, df1], axis=1)
+pd.merge(df, df1, on='Column_Name')
+
+
+
+import matplotlib.pyplot as plt
+df.plot(kind='bar', x='column1', y='column2')
+plt.show()
